@@ -1,0 +1,54 @@
+--1. Retrieve the current system date, time, and timestamp.
+select current_date, current_time, current_timestamp
+
+--2.Retrieve the year, month, and day from the StartDate of each event.
+select eventname ,
+extract ('Year' from startdate) as year ,
+extract ('Month' from startdate) as Month ,
+extract ('day' from startdate) as Day 
+from eventmanagement;
+
+--3. Get the day name, month name, and year from a Date
+select 
+extract ('day' from lastupdate) as day_name,
+extract ('Month' from lastupdate) as month_name,
+extract ('year' from lastupdate) as year
+from EventManagement;
+
+--4. Calculate how many days are left until the registration deadline for each event.
+select eventname, registrationdeadline-enddate as left_day from EventManagement;
+
+--5.Retrieve events where the RegistrationDeadline has already passed.
+select eventname
+from EventManagement
+where registrationdeadline < startdate;  --need to underunderstand once again.
+
+--6.Find the registration deadlines extended by 5 days
+select * from eventmanagement 
+where (enddate -registrationdeadline) >5;  --need to underunderstand once again.
+
+--7. Date Difference: Calculate the total time (in days and hours) between the StartDate and EndDate for each event.
+select eventname,  from eventmanagement
+where (startdate-enddate); --need to underunderstand once again.
+
+
+--8. Find the day of the week for the StartDate of each event.
+select to_char(startdate, 'day') from eventmanagement;
+
+--9. Convert a string 2024-12-15 to a date and calculate how many days it is from today.
+select  (to_date('2024-12-15', 'YYYY-MM-DD')- Current_date);
+
+--10. Format the StartDate in DD-MM-YYYY format for display purposes.
+select to_char(startdate,'DD-MM-YYYY') from eventmanagement;
+
+--11. Retrieve events that will take place in December 2024.
+select eventname, startdate from eventmanagement
+where date_trunc('Month', startdate) = '2024-12-01';
+
+--12. Find the total number of registrations for events happening in the same month.
+select eventname, sum(totalregistrations) as total_registration 
+from eventmanagement
+where date_trunc('Month', startdate) =date_trunc('Month', registrationdeadline) 
+group by eventname ;
+
+select * from EventManagement;
